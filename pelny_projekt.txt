@@ -1,0 +1,1482 @@
+import dash
+from dash import dcc, html
+from database import init_db
+
+# Inicjalizacja baz danych (nie kasuje istniejących danych)
+init_db()
+
+# Dołączenie nowoczesnych czcionek Google Fonts w nagłówku aplikacji
+external_stylesheets = [
+    "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap"
+]
+
+app = dash.Dash(
+    __name__,
+    use_pages=True,
+    suppress_callback_exceptions=True,
+    external_stylesheets=external_stylesheets,
+)
+app.title = "System Menadżera Life & Finance"
+
+app.layout = html.Div(
+    style={"display": "flex", "minHeight": "100vh"},
+    children=[
+        # Dynamiczny Sidebar (Lewy panel nawigacyjny)
+        html.Div(
+            className="sidebar",
+            style={
+                "width": "310px",
+                "background": "linear-gradient(180deg, #0f172a 0%, #1e293b 100%)",
+                "color": "white",
+                "padding": "25px 16px",
+                "display": "flex",
+                "flexDirection": "column",
+                "boxShadow": "4px 0 25px rgba(0,0,0,0.15)",
+                "boxSizing": "border-box",
+            },
+            children=[
+                # DUŻY NAGŁÓWEK GŁÓWNY
+                html.Div(
+                    style={
+                        "display": "flex",
+                        "alignItems": "center",
+                        "gap": "14px",
+                        "padding": "10px 8px",
+                        "marginBottom": "10px",
+                    },
+                    children=[
+                        html.Div(
+                            "💎",
+                            style={
+                                "fontSize": "32px",
+                                "background": "rgba(56, 189, 248, 0.15)",
+                                "border": "1px solid rgba(56, 189, 248, 0.4)",
+                                "borderRadius": "14px",
+                                "padding": "8px 12px",
+                                "display": "flex",
+                                "alignItems": "center",
+                                "justifyContent": "center",
+                            },
+                        ),
+                        html.Div([
+                            html.H1(
+                                "MENADŻER",
+                                style={
+                                    "margin": "0",
+                                    "fontSize": "28px",
+                                    "fontWeight": "900",
+                                    "letterSpacing": "1.5px",
+                                    "color": "#ffffff",
+                                    "lineHeight": "1.0",
+                                },
+                            ),
+                            html.Span(
+                                "Life & Finance System",
+                                style={
+                                    "fontSize": "12px",
+                                    "color": "#38bdf8",
+                                    "fontWeight": "700",
+                                    "letterSpacing": "0.8px",
+                                    "display": "block",
+                                    "marginTop": "4px",
+                                },
+                            ),
+                        ]),
+                    ],
+                ),
+                html.Div(
+                    style={
+                        "height": "1px",
+                        "background": (
+                            "linear-gradient(90deg, rgba(255,255,255,0.15)"
+                            " 0%, rgba(255,255,255,0.02) 100%)"
+                        ),
+                        "margin": "15px 0 20px 0",
+                    }
+                ),
+                # WYPEŁNIONE LINKI NAWIGACYJNE
+                html.Div(
+                    style={
+                        "display": "flex",
+                        "flexDirection": "column",
+                        "gap": "12px",
+                        "flex": "1",
+                    },
+                    children=[
+                        dcc.Link(
+                            children=[
+                                html.Span(
+                                    "📊",
+                                    style={
+                                        "fontSize": "26px",
+                                        "marginRight": "14px",
+                                    },
+                                ),
+                                html.Span(
+                                    "Wydatki",
+                                    style={
+                                        "fontSize": "18px",
+                                        "fontWeight": "600",
+                                    },
+                                ),
+                            ],
+                            href="/",
+                            className="nav-link",
+                        ),
+                        dcc.Link(
+                            children=[
+                                html.Span(
+                                    "📈",
+                                    style={
+                                        "fontSize": "26px",
+                                        "marginRight": "14px",
+                                    },
+                                ),
+                                html.Span(
+                                    "Inwestycje XTB",
+                                    style={
+                                        "fontSize": "18px",
+                                        "fontWeight": "600",
+                                    },
+                                ),
+                            ],
+                            href="/xtb",
+                            className="nav-link",
+                        ),
+                        dcc.Link(
+                            children=[
+                                html.Span(
+                                    "🚗",
+                                    style={
+                                        "fontSize": "26px",
+                                        "marginRight": "14px",
+                                    },
+                                ),
+                                html.Span(
+                                    "Garaż - Mercedes W211",
+                                    style={
+                                        "fontSize": "18px",
+                                        "fontWeight": "600",
+                                    },
+                                ),
+                            ],
+                            href="/auto",
+                            className="nav-link",
+                        ),
+                        dcc.Link(
+                            children=[
+                                html.Span(
+                                    "💪",
+                                    style={
+                                        "fontSize": "26px",
+                                        "marginRight": "14px",
+                                    },
+                                ),
+                                html.Span(
+                                    "Fit HERO",
+                                    style={
+                                        "fontSize": "18px",
+                                        "fontWeight": "600",
+                                    },
+                                ),
+                            ],
+                            href="/fit-hero",
+                            className="nav-link",
+                        ),
+                        dcc.Link(
+                            children=[
+                                html.Span(
+                                    "🎯",
+                                    style={
+                                        "fontSize": "26px",
+                                        "marginRight": "14px",
+                                    },
+                                ),
+                                html.Span(
+                                    "Cele i Nawyki",
+                                    style={
+                                        "fontSize": "18px",
+                                        "fontWeight": "600",
+                                    },
+                                ),
+                            ],
+                            href="/cele",
+                            className="nav-link",
+                        ),
+                    ],
+                ),
+            ],
+        ),
+        # Główne okno wyrenderowanej podstrony
+        html.Div(
+            className="content-container",
+            style={
+                "flex": "1",
+                "padding": "30px 40px",
+                "backgroundColor": "#f8fafc",
+                "overflowY": "auto",
+            },
+            children=[dash.page_container],
+        ),
+    ],
+)
+
+if __name__ == "__main__":
+    app.run(debug=True)
+import sqlite3
+import pandas as pd
+
+DB_FILE = 'budzet_sloiki.db'
+
+def get_db_connection():
+    conn = sqlite3.connect(DB_FILE)
+    conn.execute("PRAGMA foreign_keys = ON;")
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def update_ubrania_podkategoria():
+    """Jednorazowa aktualizacja nazwy podkategorii dla słoika Dzieci."""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute('''
+        UPDATE kategorie 
+        SET podkategoria = 'Ubrania Dziecięce' 
+        WHERE sloik = 'Dzieci' AND podkategoria = 'Ubrania'
+    ''')
+    
+    cursor.execute('''
+        UPDATE transakcje 
+        SET podkategoria = 'Ubrania Dziecięce' 
+        WHERE zrodlo_lub_sloik = 'Dzieci' AND podkategoria = 'Ubrania'
+    ''')
+    
+    conn.commit()
+    conn.close()
+
+def init_db():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # 1. TABELA KATEGORII BUDŻETOWYCH
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS kategorie (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        sloik TEXT NOT NULL,
+        procent REAL NOT NULL,
+        podkategoria TEXT NOT NULL
+    )''')
+
+    cursor.execute("SELECT COUNT(*) FROM kategorie")
+    if cursor.fetchone()[0] == 0:
+        default_kategorie = [
+            ('Życie', 15.0, 'Jedzenie'),
+            ('Życie', 15.0, 'Rachunki'),
+            ('Życie', 15.0, 'Apteka / Zdrowie'),
+            ('Życie', 15.0, 'Chemia i Dom'),
+            ('Dzieci', 50.0, 'Edukacja'),
+            ('Dzieci', 50.0, 'Ubrania Dziecięce'),
+            ('Dzieci', 50.0, 'Rozrywka i Zajęcia'),
+            ('Dzieci', 50.0, 'Alimenty'),
+            ('Przyjemności', 8.0, 'Wyjścia i Restauracje'),
+            ('Przyjemności', 8.0, 'Hobby'),
+            ('Przyjemności', 8.0, 'Kultura / Filmy'),
+            ('Nieprzewidziane wydatki', 10.0, 'Lekarz'),
+            ('Nieprzewidziane wydatki', 10.0, 'Awarie sprzętu'),
+            ('Fundusz Auto', 8.5, 'Paliwo LPG/Pb'),
+            ('Fundusz Auto', 8.5, 'Serwis i Części'),
+            ('Fundusz Auto', 8.5, 'Ubezpieczenie i Przegląd'),
+            ('Oszczędzanie XTB', 7.0, 'Rachunek Maklerski ETF'),
+            ('Pomoc innym', 1.5, 'Darowizny'),
+            ('Pomoc innym', 1.5, 'Kościół'),
+        ]
+        cursor.executemany("INSERT INTO kategorie (sloik, procent, podkategoria) VALUES (?, ?, ?)", default_kategorie)
+
+    # 2. TABELA TRANSAKCJI
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS transakcje (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        data TEXT NOT NULL,
+        typ TEXT NOT NULL,
+        zrodlo_lub_sloik TEXT NOT NULL,
+        podkategoria TEXT,
+        kwota REAL NOT NULL,
+        komentarz TEXT
+    )''')
+
+    # 3. TABELE DLA MODUŁU CELE I NAWYKI
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS goals_categories (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT UNIQUE NOT NULL
+    )''')
+
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS goals_def (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        category TEXT NOT NULL,
+        horizon TEXT NOT NULL,
+        weight_type TEXT,
+        target_frequency INTEGER DEFAULT 1,
+        start_date TEXT,
+        is_active INTEGER DEFAULT 1
+    )''')
+
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS goals_daily_logs (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        goal_id INTEGER NOT NULL,
+        log_date TEXT NOT NULL,
+        status INTEGER DEFAULT 0,
+        UNIQUE(goal_id, log_date)
+    )''')
+
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS goals_project_progress (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        goal_id INTEGER NOT NULL,
+        progress_pct INTEGER NOT NULL,
+        updated_at TEXT NOT NULL
+    )''')
+
+    conn.commit()
+    conn.close()
+    
+    update_ubrania_podkategoria()
+
+def get_kategorie_df():
+    conn = get_db_connection()
+    try:
+        df = pd.read_sql_query("SELECT * FROM kategorie", conn)
+    except Exception:
+        df = pd.DataFrame()
+    conn.close()
+    return df
+
+def get_transakcje_df():
+    conn = get_db_connection()
+    try:
+        df = pd.read_sql_query("SELECT * FROM transakcje ORDER BY data DESC, id DESC", conn)
+    except Exception:
+        df = pd.DataFrame()
+    conn.close()
+    return df
+import dash
+from dash import html, dcc, Input, Output, State, callback, set_props, ALL
+import pandas as pd
+from datetime import datetime
+import plotly.express as px
+from database import get_db_connection
+
+dash.register_page(__name__, path='/fit-hero', name='Moduł Fit Hero')
+
+USER_HEIGHT_M = 1.86
+
+LOAD_TYPE_OPTIONS = [
+    {'label': '⚖️ Masa ciała', 'value': 'Masa ciała'},
+    {'label': '🏋️ Ciężar (kg)', 'value': 'Ciężar (kg)'},
+    {'label': '🎗️ Guma oporowa', 'value': 'Guma oporowa'}
+]
+
+# IKONY RPE DLA POJEDYNCZYCH SERII
+RPE_OPTIONS = [
+    {'label': '🟢 Lekko', 'value': 1},
+    {'label': '🟡 OK', 'value': 2},
+    {'label': '🟠 Ciężko', 'value': 3},
+    {'label': '🔴 Max', 'value': 4}
+]
+
+# IKONY SAMOPOCZUCIA DLA CAŁEGO TRENINGU
+FATIGUE_OPTIONS = [
+    {'label': '🚀 Nakręcony!', 'value': 1},
+    {'label': '⚡ Dobry trening', 'value': 2},
+    {'label': '😮‍💨 Zmęczony', 'value': 3},
+    {'label': '🥵 Wykończony', 'value': 4}
+]
+
+def init_and_migrate_fit_db():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    # 1. Tabela pomiarów ciała
+    cursor.execute('CREATE TABLE IF NOT EXISTS fit_body_params (entry_date TEXT PRIMARY KEY)')
+    required_columns = {
+        'entry_time': 'TEXT', 'weight_kg': 'REAL', 'body_fat_pct': 'REAL',
+        'muscle_mass_kg': 'REAL', 'muscle_pct': 'REAL', 'protein_pct': 'REAL',
+        'skeletal_muscle_kg': 'REAL', 'water_pct': 'REAL', 'bmr_kcal': 'REAL',
+        'lbm_kg': 'REAL', 'biceps_cm': 'REAL', 'forearm_cm': 'REAL',
+        'chest_cm': 'REAL', 'waist_cm': 'REAL', 'hips_cm': 'REAL',
+        'thigh_cm': 'REAL', 'calf_cm': 'REAL', 'notes': 'TEXT'
+    }
+    cursor.execute("PRAGMA table_info(fit_body_params)")
+    existing_cols = [row[1] for row in cursor.fetchall()]
+    for col_name, col_type in required_columns.items():
+        if col_name not in existing_cols:
+            cursor.execute(f"ALTER TABLE fit_body_params ADD COLUMN {col_name} {col_type}")
+            
+    # 2. Tabela planów
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS fit_plans (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            plan_name TEXT UNIQUE,
+            description TEXT
+        )
+    ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS fit_plan_exercises (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            plan_id INTEGER,
+            exercise_name TEXT,
+            target_sets INTEGER DEFAULT 4,
+            target_reps TEXT DEFAULT '8-12',
+            load_type TEXT DEFAULT 'Ciężar (kg)',
+            load_detail TEXT,
+            default_weight_kg REAL DEFAULT 0,
+            rest_seconds INTEGER DEFAULT 90,
+            FOREIGN KEY(plan_id) REFERENCES fit_plans(id) ON DELETE CASCADE
+        )
+    ''')
+    
+    # 3. Tabela historii serii
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS fit_workout_logs (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            workout_date TEXT
+        )
+    ''')
+    
+    workout_log_required_cols = {
+        'plan_name': 'TEXT',
+        'exercise_name': 'TEXT',
+        'set_number': 'INTEGER',
+        'weight_kg': 'REAL',
+        'reps': 'INTEGER',
+        'rpe_score': 'INTEGER',
+        'notes': 'TEXT'
+    }
+    cursor.execute("PRAGMA table_info(fit_workout_logs)")
+    log_cols = [row[1] for row in cursor.fetchall()]
+    for col_name, col_type in workout_log_required_cols.items():
+        if col_name not in log_cols:
+            cursor.execute(f"ALTER TABLE fit_workout_logs ADD COLUMN {col_name} {col_type}")
+
+    # 4. Tabela podsumowań sesji
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS fit_workout_sessions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            workout_date TEXT,
+            plan_name TEXT,
+            completion_pct REAL,
+            fatigue_score INTEGER,
+            overall_notes TEXT
+        )
+    ''')
+
+    conn.commit()
+    conn.close()
+
+init_and_migrate_fit_db()
+
+def get_body_params_df():
+    conn = get_db_connection()
+    try:
+        df = pd.read_sql_query("SELECT * FROM fit_body_params ORDER BY entry_date DESC", conn)
+    except Exception:
+        df = pd.DataFrame()
+    conn.close()
+    return df
+
+def get_plans_list():
+    conn = get_db_connection()
+    try:
+        df = pd.read_sql_query("SELECT * FROM fit_plans", conn)
+    except Exception:
+        df = pd.DataFrame()
+    conn.close()
+    return df
+
+def get_plan_exercises(plan_id):
+    conn = get_db_connection()
+    try:
+        df = pd.read_sql_query("SELECT * FROM fit_plan_exercises WHERE plan_id = ?", conn, params=(plan_id,))
+    except Exception:
+        df = pd.DataFrame()
+    conn.close()
+    return df
+
+layout = html.Div([
+    dcc.Location(id="fit-url-refresh", refresh=True),
+    html.H2("💪 Moduł Fit Hero — Karta Pomiarów Sylwetki", style={"marginBottom": "20px", "color": "#0f172a"}),
+    
+    dcc.Tabs(
+        id="tabs-fit",
+        value="fit-pomiary",
+        className="custom-tabs-container",
+        parent_className="custom-tabs-parent",
+        children=[
+            dcc.Tab(label="📏 Karta Pomiarów & Analityka", value="fit-pomiary", className="custom-tab", selected_className="custom-tab--selected"),
+            dcc.Tab(label="📋 Zarządzanie Planami", value="fit-plany-edit", className="custom-tab", selected_className="custom-tab--selected"),
+            dcc.Tab(label="🏋️ Trening Live", value="fit-trening-live", className="custom-tab", selected_className="custom-tab--selected"),
+            dcc.Tab(label="📈 Wykresy i Postępy", value="fit-historia", className="custom-tab", selected_className="custom-tab--selected"),
+        ]
+    ),
+    
+    html.Div(id="tab-fit-content", style={"marginTop": "20px"})
+])
+
+def fmt_val(val, unit=""):
+    if pd.notnull(val) and val != "":
+        try:
+            return f"{float(val):.1f} {unit}".replace('.', ',')
+        except ValueError:
+            pass
+    return "--"
+
+def calc_smart_delta(first_val, last_val, unit="", is_positive_good=True):
+    if pd.notnull(first_val) and pd.notnull(last_val):
+        try:
+            diff = float(last_val) - float(first_val)
+            if abs(diff) < 0.01:
+                return html.Span("0,0 " + unit, style={"color": "#64748b", "fontWeight": "600"})
+            sign = "+" if diff > 0 else ""
+            text = f"{sign}{diff:.1f} {unit}".replace('.', ',')
+            color = "#10b981" if ((diff > 0 and is_positive_good) or (diff < 0 and not is_positive_good)) else "#ef4444"
+            return html.Span(text, style={"fontWeight": "800", "color": color})
+        except ValueError:
+            pass
+    return html.Span("--", style={"color": "#94a3b8"})
+
+def get_color_for_score(score):
+    colors = {
+        1: "#ef4444", 2: "#f97316", 3: "#f59e0b", 4: "#d97706",
+        5: "#ca8a04", 6: "#65a30d", 7: "#16a34a", 8: "#15803d",
+        9: "#10b981", 10: "#059669"
+    }
+    return colors.get(score, "#64748b")
+
+@callback(
+    Output("tab-fit-content", "children"),
+    Input("tabs-fit", "value")
+)
+def render_fit_subtabs(tab):
+    df_body = get_body_params_df()
+    
+    if not df_body.empty and ('weight_kg' in df_body.columns or 'waist_cm' in df_body.columns):
+        df_valid = df_body[
+            (df_body.get('weight_kg', pd.Series()).notnull()) | 
+            (df_body.get('waist_cm', pd.Series()).notnull())
+        ].copy()
+    else:
+        df_valid = pd.DataFrame()
+        
+    has_valid_data = not df_valid.empty
+    
+    # 1. POMIARY SYLWETKI
+    if tab == "fit-pomiary":
+        bmi_str, whr_str, v_taper_str, ffmi_str = "--", "--", "--", "--"
+        bmi_sub, whr_sub, v_taper_sub, ffmi_sub = "Brak danych", "Brak danych", "Brak danych", "Brak danych"
+        bmi_score, whr_score, vt_score, ffmi_score = 5, 5, 5, 5
+        
+        bmi_tip = (
+            "BMI (Body Mass Index) — Wskaźnik masy ciała.\n"
+            "• Co mierzy: Relację masy ciała do wzrostu (wzór: kg / m²).\n"
+            "• Waga idealna: Dla wzrostu 186 cm zdrowy zakres wagi wynosi ok. 64.0 – 86.2 kg (środek normy: ~75–78 kg).\n"
+            "• Interpretacja: Szybka ocena normy wagowej, choć nie rozróżnia masy tłuszczowej od mięśniowej.\n"
+            "• Skala: Norma medyczna wynosi 18.5 – 24.9."
+        )
+        
+        whr_tip = (
+            "WHR (Waist-to-Hip Ratio) — Dystrybucja tłuszczu.\n"
+            "• Co mierzy: Stosunek obwodu pasa do bioder.\n"
+            "• Interpretacja: Określa ryzyko tłuszczu trzewnego. Typ 'jabłko' (wysoki WHR) niesie ryzyko metaboliczne.\n"
+            "• Skala: Pożądany wynik dla mężczyzn to poniżej 0.90."
+        )
+        
+        vt_tip = (
+            "Proporcja V-Taper (Klatka / Pas) — V-Shape.\n"
+            "• Co mierzy: Stosunek obwodu klatki do pasa.\n"
+            "• Zakresy skali:\n"
+            "  - > 1.30: Kulturystyczna / Ekstremalny V-Shape\n"
+            "  - 1.25 – 1.30: Świetna, wysoce atletyczna budowa\n"
+            "  - 1.15 – 1.24: Dobre proporcje / Wysportowana\n"
+            "  - 1.05 – 1.14: Budowa przeciętna / Standard\n"
+            "  - < 1.05: Brak zwężenia (do poprawy)"
+        )
+        
+        ffmi_tip = (
+            "FFMI (Fat-Free Mass Index) — Indeks masy mięśniowej.\n"
+            "• Co mierzy: Czystą masę mięśniową w odniesieniu do wzrostu.\n"
+            "• Interpretacja: Obiektywny wskaźnik rozwoju muskulatury.\n"
+            "• Skala: 19–20: Poziom średni | 21–22: Bardzo zaawansowany | > 25: Limit naturalny."
+        )
+        
+        if has_valid_data:
+            row = df_valid.iloc[0]
+            w = row.get('weight_kg')
+            waist = row.get('waist_cm')
+            chest = row.get('chest_cm')
+            hips = row.get('hips_cm')
+            bf = row.get('body_fat_pct')
+            
+            if pd.notnull(w) and w > 0:
+                bmi_val = w / (USER_HEIGHT_M ** 2)
+                bmi_str = f"{bmi_val:.1f}".replace('.', ',')
+                if bmi_val < 18.5: bmi_sub, bmi_score = "Niedowaga", 2
+                elif bmi_val <= 24.9: bmi_sub, bmi_score = "Norma", 10
+                elif bmi_val <= 27.5: bmi_sub, bmi_score = "Lekka nadwaga", 6
+                elif bmi_val <= 29.9: bmi_sub, bmi_score = "Nadwaga", 4
+                else: bmi_sub, bmi_score = "Otyłość", 1
+
+            if pd.notnull(waist) and pd.notnull(hips) and hips > 0:
+                whr_val = waist / hips
+                whr_str = f"{whr_val:.2f}".replace('.', ',')
+                if whr_val <= 0.85: whr_sub, whr_score = "Optymalny", 10
+                elif whr_val <= 0.90: whr_sub, whr_score = "Norma", 8
+                elif whr_val <= 0.95: whr_sub, whr_score = "Umiarkowane ryzyko", 5
+                else: whr_sub, whr_score = "Typ Brzuszny", 2
+            elif pd.notnull(waist):
+                whr_str = f"{waist:.0f} cm"
+
+            if pd.notnull(chest) and pd.notnull(waist) and waist > 0:
+                vt_val = chest / waist
+                v_taper_str = f"{vt_val:.2f}".replace('.', ',')
+                if vt_val >= 1.25: vt_sub, vt_score = "V-Shape (Świetne)", 10
+                elif vt_val >= 1.15: vt_sub, vt_score = "Dobre proporcje", 7
+                else: vt_sub, vt_score = "Do poprawy", 3
+
+            if pd.notnull(w) and pd.notnull(bf) and w > 0:
+                lbm = w * (1.0 - (bf / 100.0))
+                ffmi_val = lbm / (USER_HEIGHT_M ** 2)
+                ffmi_str = f"{ffmi_val:.1f}".replace('.', ',')
+                if ffmi_val >= 21.5: ffmi_sub, ffmi_score = "Bardzo dobre", 9
+                elif ffmi_val >= 19.5: ffmi_sub, ffmi_score = "Dobre", 7
+                else: ffmi_sub, ffmi_score = "Przeciętne", 4
+
+        table_rows = []
+        if has_valid_data:
+            first = df_valid.iloc[-1]
+            latest = df_valid.iloc[0]
+            params_config = [
+                ("Masa Ciała", "weight_kg", "kg", False),
+                ("Tkanka Tłuszczowa (BF)", "body_fat_pct", "%", False),
+                ("Masa Mięśniowa", "muscle_mass_kg", "kg", True),
+                ("Mięśnie Szkieletowe", "skeletal_muscle_kg", "kg", True),
+                ("Procent Mięśni", "muscle_pct", "%", True),
+                ("Białko", "protein_pct", "%", True),
+                ("Nawodnienie", "water_pct", "%", True),
+                ("Pas (Pępek)", "waist_cm", "cm", False),
+                ("Klatka Piersiowa", "chest_cm", "cm", True),
+                ("Biceps / Ramię", "biceps_cm", "cm", True),
+                ("Przedramię", "forearm_cm", "cm", True),
+                ("Biodra / Oponka", "hips_cm", "cm", False),
+                ("Udo", "thigh_cm", "cm", True),
+                ("Łydka", "calf_cm", "cm", True),
+            ]
+            for name, col_id, unit, is_pos_good in params_config:
+                val_first = first.get(col_id)
+                val_latest = latest.get(col_id)
+                if pd.notnull(val_first) or pd.notnull(val_latest):
+                    table_rows.append(html.Tr([
+                        html.Td(name, style={"padding": "10px 12px", "fontWeight": "700", "color": "#0f172a", "borderBottom": "1px solid #f1f5f9"}),
+                        html.Td(fmt_val(val_first, unit), style={"padding": "10px 12px", "textAlign": "center", "color": "#64748b", "borderBottom": "1px solid #f1f5f9"}),
+                        html.Td(fmt_val(val_latest, unit), style={"padding": "10px 12px", "textAlign": "center", "fontWeight": "700", "color": "#0284c7", "borderBottom": "1px solid #f1f5f9"}),
+                        html.Td(calc_smart_delta(val_first, val_latest, unit, is_positive_good=is_pos_good), style={"padding": "10px 12px", "textAlign": "center", "borderBottom": "1px solid #f1f5f9"}),
+                    ]))
+
+        return html.Div([
+            html.Div(style={"display": "flex", "gap": "20px", "marginBottom": "25px"}, children=[
+                html.Div(className=f"kpi-card score-{bmi_score}", **{"data-tooltip": bmi_tip}, children=[
+                    html.Span("Wskaźnik BMI", style={"color": "#64748b", "fontSize": "13px", "fontWeight": "bold"}),
+                    html.H2(bmi_str, style={"margin": "4px 0 2px 0", "color": get_color_for_score(bmi_score)}),
+                    html.Span(f"Score {bmi_score}/10 — {bmi_sub}", style={"fontSize": "11px", "color": get_color_for_score(bmi_score), "fontWeight": "700"})
+                ]),
+                html.Div(className=f"kpi-card score-{whr_score}", **{"data-tooltip": whr_tip}, children=[
+                    html.Span("Dystrybucja WHR (Pas/Biodra)", style={"color": "#64748b", "fontSize": "13px", "fontWeight": "bold"}),
+                    html.H2(whr_str, style={"margin": "4px 0 2px 0", "color": get_color_for_score(whr_score)}),
+                    html.Span(f"Score {whr_score}/10 — {whr_sub}", style={"fontSize": "11px", "color": get_color_for_score(whr_score), "fontWeight": "700"})
+                ]),
+                html.Div(className=f"kpi-card score-{vt_score}", **{"data-tooltip": vt_tip}, children=[
+                    html.Span("Proporcja V-Taper (Klatka/Pas)", style={"color": "#64748b", "fontSize": "13px", "fontWeight": "bold"}),
+                    html.H2(v_taper_str, style={"margin": "4px 0 2px 0", "color": get_color_for_score(vt_score)}),
+                    html.Span(f"Score {vt_score}/10 — {vt_sub}", style={"fontSize": "11px", "color": get_color_for_score(vt_score), "fontWeight": "700"})
+                ]),
+                html.Div(className=f"kpi-card score-{ffmi_score}", **{"data-tooltip": ffmi_tip}, children=[
+                    html.Span("FFMI (Indeks Mięśni)", style={"color": "#64748b", "fontSize": "13px", "fontWeight": "bold"}),
+                    html.H2(ffmi_str, style={"margin": "4px 0 2px 0", "color": get_color_for_score(ffmi_score)}),
+                    html.Span(f"Score {ffmi_score}/10 — {ffmi_sub}", style={"fontSize": "11px", "color": get_color_for_score(ffmi_score), "fontWeight": "700"})
+                ]),
+            ]),
+            
+            html.Div(style={"display": "flex", "gap": "24px", "alignItems": "flex-start"}, children=[
+                html.Div(style={"flex": "1.1", "backgroundColor": "white", "padding": "28px", "borderRadius": "16px", "boxShadow": "0 4px 20px rgba(0,0,0,0.04)", "border": "1px solid #e2e8f0"}, children=[
+                    html.H3("📋 Karta Pomiarowa Sylwetki", style={"marginTop": 0, "marginBottom": "15px", "color": "#0f172a", "fontWeight": "800", "fontSize": "18px"}),
+                    html.Div(style={"display": "grid", "gridTemplateColumns": "1fr 1fr", "gap": "12px", "marginBottom": "15px"}, children=[
+                        html.Div([html.Label("Data Pomiaru:"), dcc.DatePickerSingle(id="fit-input-date", date=datetime.now().date(), display_format="YYYY-MM-DD")]),
+                        html.Div([html.Label("Godzina Pomiaru:"), dcc.Input(id="fit-input-time", type="text", placeholder="np. 07:15")]),
+                    ]),
+                    html.Div(style={"backgroundColor": "#f8fafc", "padding": "16px", "borderRadius": "12px", "marginBottom": "20px", "border": "1px solid #e2e8f0"}, children=[
+                        html.H4("1. WAGA & SKŁAD CIAŁA (Waga Xiaomi na czczo)", style={"marginTop": 0, "marginBottom": "12px", "color": "#0284c7", "fontSize": "14px", "fontWeight": "800"}),
+                        html.Div(style={"display": "grid", "gridTemplateColumns": "1fr 1fr", "gap": "10px"}, children=[
+                            html.Div([html.Label("Masa Ciała (kg):"), dcc.Input(id="fit-input-weight", type="number", placeholder="kg", step=0.1)]),
+                            html.Div([html.Label("Tkanka Tłuszczowa (%):"), dcc.Input(id="fit-input-bf", type="number", placeholder="%", step=0.1)]),
+                            html.Div([html.Label("Masa Mięśniowa (kg):"), dcc.Input(id="fit-input-muscle-kg", type="number", placeholder="kg", step=0.1)]),
+                            html.Div([html.Label("Procent Mięśni (%):"), dcc.Input(id="fit-input-muscle-pct", type="number", placeholder="%", step=0.1)]),
+                            html.Div([html.Label("Białko Procentowo (%):"), dcc.Input(id="fit-input-protein-pct", type="number", placeholder="%", step=0.1)]),
+                            html.Div([html.Label("Mięśnie Szkieletowe (kg):"), dcc.Input(id="fit-input-skeletal-kg", type="number", placeholder="kg", step=0.1)]),
+                            html.Div([html.Label("Nawodnienie (%):"), dcc.Input(id="fit-input-water-pct", type="number", placeholder="%", step=0.1)]),
+                            html.Div([html.Label("BMR (Metabolizm kcal):"), dcc.Input(id="fit-input-bmr", type="number", placeholder="kcal", step=1)]),
+                            html.Div([html.Label("LBM (Bez tłuszczu kg):"), dcc.Input(id="fit-input-lbm", type="number", placeholder="kg", step=0.1)]),
+                        ])
+                    ]),
+                    html.Div(style={"backgroundColor": "#f8fafc", "padding": "16px", "borderRadius": "12px", "marginBottom": "20px", "border": "1px solid #e2e8f0"}, children=[
+                        html.H4("2. OBWODY CIAŁA — MIARKA KRAWIECKA", style={"marginTop": 0, "marginBottom": "12px", "color": "#0284c7", "fontSize": "14px", "fontWeight": "800"}),
+                        html.Div(style={"display": "grid", "gridTemplateColumns": "1fr 1fr", "gap": "10px"}, children=[
+                            html.Div([html.Label("Biceps / Ramię (cm):"), dcc.Input(id="fit-input-biceps", type="number", placeholder="cm", step=0.5)]),
+                            html.Div([html.Label("Przedramię (cm):"), dcc.Input(id="fit-input-forearm", type="number", placeholder="cm", step=0.5)]),
+                            html.Div([html.Label("Klatka (cm):"), dcc.Input(id="fit-input-chest", type="number", placeholder="cm", step=0.5)]),
+                            html.Div([html.Label("Pas - Pępek (cm):"), dcc.Input(id="fit-input-waist", type="number", placeholder="cm", step=0.5)]),
+                            html.Div([html.Label("Biodra / Oponka (cm):"), dcc.Input(id="fit-input-hips", type="number", placeholder="cm", step=0.5)]),
+                            html.Div([html.Label("Udo (cm):"), dcc.Input(id="fit-input-thigh", type="number", placeholder="cm", step=0.5)]),
+                            html.Div([html.Label("Łydka (cm):"), dcc.Input(id="fit-input-calf", type="number", placeholder="cm", step=0.5)]),
+                        ])
+                    ]),
+                    html.Label("Uwagi / Komentarz:"),
+                    dcc.Input(id="fit-input-notes", type="text", placeholder="np. Po regeneracji, rano na czczo..."),
+                    html.Button("Zapisz Kartę Pomiarów", id="btn-fit-save-body", n_clicks=0, style={"width": "100%", "marginTop": "20px", "padding": "14px", "backgroundColor": "#10b981", "color": "white", "border": "none", "borderRadius": "10px", "fontWeight": "800", "fontSize": "15px", "cursor": "pointer"}),
+                    html.Div(id="fit-save-msg", style={"marginTop": "14px", "textAlign": "center", "fontWeight": "bold"})
+                ]),
+                
+                html.Div(style={"flex": "1", "backgroundColor": "white", "padding": "24px", "borderRadius": "16px", "boxShadow": "0 4px 20px rgba(0,0,0,0.03)", "border": "1px solid #e2e8f0"}, children=[
+                    html.H3("📊 Analiza Progresu Sylwetkowego", style={"marginTop": 0, "marginBottom": "14px", "color": "#0f172a", "fontWeight": "800", "fontSize": "18px"}),
+                    html.Table(style={"width": "100%", "borderCollapse": "collapse"}, children=[
+                        html.Thead(html.Tr(style={"backgroundColor": "#f8fafc", "borderBottom": "2px solid #e2e8f0"}, children=[
+                            html.Th("PARAMETR", style={"padding": "12px", "textAlign": "left", "fontSize": "11px", "color": "#475569", "fontWeight": "800"}),
+                            html.Th("PIERWSZY", style={"padding": "12px", "textAlign": "center", "fontSize": "11px", "color": "#475569", "fontWeight": "800"}),
+                            html.Th("OSTATNI", style={"padding": "12px", "textAlign": "center", "fontSize": "11px", "color": "#475569", "fontWeight": "800"}),
+                            html.Th("DELTA (PROGRES)", style={"padding": "12px", "textAlign": "center", "fontSize": "11px", "color": "#475569", "fontWeight": "800"}),
+                        ])),
+                        html.Tbody(table_rows if table_rows else [html.Tr(html.Td("Brak danych pomiarowych do porównania.", colSpan=4, style={"textAlign": "center", "padding": "20px", "color": "#64748b"}))])
+                    ])
+                ])
+            ])
+        ])
+
+    # 2. ZARZĄDZANIE PLANAMI
+    elif tab == "fit-plany-edit":
+        df_plans = get_plans_list()
+        plans_options = [{'label': r['plan_name'], 'value': r['id']} for _, r in df_plans.iterrows()] if not df_plans.empty else []
+        
+        return html.Div(style={"maxWidth": "900px", "margin": "0 auto", "backgroundColor": "white", "padding": "32px", "borderRadius": "16px", "border": "1px solid #e2e8f0", "boxShadow": "0 4px 20px rgba(0,0,0,0.03)"}, children=[
+            html.Div(style={"display": "flex", "justifyContent": "space-between", "alignItems": "center", "marginBottom": "24px"}, children=[
+                html.H3("📋 Zarządzanie Planami Treningowymi", style={"margin": 0, "color": "#0f172a", "fontWeight": "800"}),
+                dcc.RadioItems(
+                    id="plan-editor-mode",
+                    options=[
+                        {'label': ' ✏️ Edytuj Wybrany Plan', 'value': 'edit'},
+                        {'label': ' ➕ Stwórz Nowy Plan', 'value': 'new'}
+                    ],
+                    value='edit',
+                    inline=True,
+                    style={"fontWeight": "bold", "color": "#0284c7"}
+                )
+            ]),
+            
+            html.Div(id="edit-plan-select-container", children=[
+                html.Label("Wybierz plan do edycji:"),
+                dcc.Dropdown(
+                    id="fit-edit-select-plan",
+                    options=plans_options,
+                    value=plans_options[0]['value'] if plans_options else None,
+                    clearable=False,
+                    style={"marginBottom": "20px"}
+                )
+            ]),
+            
+            html.Div(id="plan-editor-content")
+        ])
+
+    # 3. TRENING LIVE
+    elif tab == "fit-trening-live":
+        df_plans = get_plans_list()
+        plans_options = [{'label': r['plan_name'], 'value': r['id']} for _, r in df_plans.iterrows()] if not df_plans.empty else []
+        
+        return html.Div(style={"maxWidth": "850px", "margin": "0 auto", "backgroundColor": "white", "padding": "32px", "borderRadius": "16px", "border": "1px solid #e2e8f0", "boxShadow": "0 4px 20px rgba(0,0,0,0.03)"}, children=[
+            html.H3("🏋️ Dziennik Treningowy na Żywo (Live Workout)", style={"marginTop": 0, "marginBottom": "16px", "color": "#0f172a", "fontWeight": "800"}),
+            html.Label("Wybierz dzisiejszy plan treningowy:"),
+            dcc.Dropdown(
+                id="fit-select-live-plan",
+                options=plans_options,
+                value=plans_options[0]['value'] if plans_options else None,
+                placeholder="Wybierz plan z listy...",
+                clearable=False,
+                style={"marginBottom": "24px"}
+            ),
+            html.Div(id="fit-live-exercises-container")
+        ])
+
+    # 4. WYKRESY I HISTORIA
+    elif tab == "fit-historia":
+        if df_valid.empty or len(df_valid) < 2:
+            return html.Div(style={"backgroundColor": "white", "padding": "40px", "borderRadius": "16px", "textAlign": "center"}, children=[
+                html.P("Wprowadź co najmniej 2 ważne pomiary, aby zobaczyć wykresy postępów.", style={"color": "#64748b"})
+            ])
+        df_plot = df_valid.sort_values(by="entry_date", ascending=True)
+        fig_weight = px.line(df_plot, x="entry_date", y=[c for c in ["weight_kg", "muscle_mass_kg", "lbm_kg"] if c in df_plot.columns], title="Masa Ciała i Mięśni (kg)")
+        fig_weight.update_layout(font_family="Inter")
+        fig_circ = px.line(df_plot, x="entry_date", y=[c for c in ["waist_cm", "biceps_cm", "chest_cm", "hips_cm"] if c in df_plot.columns], title="Obwody Ciała (cm)")
+        fig_circ.update_layout(font_family="Inter")
+        return html.Div(style={"display": "flex", "flexDirection": "column", "gap": "20px"}, children=[
+            html.Div(style={"backgroundColor": "white", "padding": "20px", "borderRadius": "16px", "border": "1px solid #e2e8f0"}, children=[dcc.Graph(figure=fig_weight)]),
+            html.Div(style={"backgroundColor": "white", "padding": "20px", "borderRadius": "16px", "border": "1px solid #e2e8f0"}, children=[dcc.Graph(figure=fig_circ)]),
+        ])
+        
+        
+        if has_valid_data:
+            row = df_valid.iloc[0]
+            w = row.get('weight_kg')
+            waist = row.get('waist_cm')
+            chest = row.get('chest_cm')
+            hips = row.get('hips_cm')
+            bf = row.get('body_fat_pct')
+            
+            if pd.notnull(w) and w > 0:
+                bmi_val = w / (USER_HEIGHT_M ** 2)
+                bmi_str = f"{bmi_val:.1f}".replace('.', ',')
+                if bmi_val < 18.5: bmi_sub, bmi_score = "Niedowaga", 2
+                elif bmi_val <= 24.9: bmi_sub, bmi_score = "Norma", 10
+                elif bmi_val <= 27.5: bmi_sub, bmi_score = "Lekka nadwaga", 6
+                elif bmi_val <= 29.9: bmi_sub, bmi_score = "Nadwaga", 4
+                else: bmi_sub, bmi_score = "Otyłość", 1
+                bmi_tip = f"Twój BMI: {bmi_str} ({bmi_sub})"
+
+            if pd.notnull(waist) and pd.notnull(hips) and hips > 0:
+                whr_val = waist / hips
+                whr_str = f"{whr_val:.2f}".replace('.', ',')
+                if whr_val <= 0.85: whr_sub, whr_score = "Optymalny", 10
+                elif whr_val <= 0.90: whr_sub, whr_score = "Norma", 8
+                elif whr_val <= 0.95: whr_sub, whr_score = "Umiarkowane ryzyko", 5
+                else: whr_sub, whr_score = "Typ Brzuszny", 2
+                whr_tip = f"Twój WHR: {whr_str} ({whr_sub})"
+            elif pd.notnull(waist):
+                whr_str = f"{waist:.0f} cm"
+
+            if pd.notnull(chest) and pd.notnull(waist) and waist > 0:
+                vt_val = chest / waist
+                v_taper_str = f"{vt_val:.2f}".replace('.', ',')
+                if vt_val >= 1.25: vt_sub, vt_score = "V-Shape (Świetne)", 10
+                elif vt_val >= 1.15: vt_sub, vt_score = "Dobre proporcje", 7
+                else: vt_sub, vt_score = "Do poprawy", 3
+                vt_tip = f"V-Taper: {v_taper_str}"
+
+            if pd.notnull(w) and pd.notnull(bf) and w > 0:
+                lbm = w * (1.0 - (bf / 100.0))
+                ffmi_val = lbm / (USER_HEIGHT_M ** 2)
+                ffmi_str = f"{ffmi_val:.1f}".replace('.', ',')
+                if ffmi_val >= 21.5: ffmi_sub, ffmi_score = "Bardzo dobre", 9
+                elif ffmi_val >= 19.5: ffmi_sub, ffmi_score = "Dobre", 7
+                else: ffmi_sub, ffmi_score = "Przeciętne", 4
+                ffmi_tip = f"FFMI: {ffmi_str}"
+
+        table_rows = []
+        if has_valid_data:
+            first = df_valid.iloc[-1]
+            latest = df_valid.iloc[0]
+            params_config = [
+                ("Masa Ciała", "weight_kg", "kg", False),
+                ("Tkanka Tłuszczowa (BF)", "body_fat_pct", "%", False),
+                ("Masa Mięśniowa", "muscle_mass_kg", "kg", True),
+                ("Mięśnie Szkieletowe", "skeletal_muscle_kg", "kg", True),
+                ("Procent Mięśni", "muscle_pct", "%", True),
+                ("Białko", "protein_pct", "%", True),
+                ("Nawodnienie", "water_pct", "%", True),
+                ("Pas (Pępek)", "waist_cm", "cm", False),
+                ("Klatka Piersiowa", "chest_cm", "cm", True),
+                ("Biceps / Ramię", "biceps_cm", "cm", True),
+                ("Przedramię", "forearm_cm", "cm", True),
+                ("Biodra / Oponka", "hips_cm", "cm", False),
+                ("Udo", "thigh_cm", "cm", True),
+                ("Łydka", "calf_cm", "cm", True),
+            ]
+            for name, col_id, unit, is_pos_good in params_config:
+                val_first = first.get(col_id)
+                val_latest = latest.get(col_id)
+                if pd.notnull(val_first) or pd.notnull(val_latest):
+                    table_rows.append(html.Tr([
+                        html.Td(name, style={"padding": "10px 12px", "fontWeight": "700", "color": "#0f172a", "borderBottom": "1px solid #f1f5f9"}),
+                        html.Td(fmt_val(val_first, unit), style={"padding": "10px 12px", "textAlign": "center", "color": "#64748b", "borderBottom": "1px solid #f1f5f9"}),
+                        html.Td(fmt_val(val_latest, unit), style={"padding": "10px 12px", "textAlign": "center", "fontWeight": "700", "color": "#0284c7", "borderBottom": "1px solid #f1f5f9"}),
+                        html.Td(calc_smart_delta(val_first, val_latest, unit, is_positive_good=is_pos_good), style={"padding": "10px 12px", "textAlign": "center", "borderBottom": "1px solid #f1f5f9"}),
+                    ]))
+
+        return html.Div([
+            html.Div(style={"display": "flex", "gap": "20px", "marginBottom": "25px"}, children=[
+                html.Div(className=f"kpi-card score-{bmi_score}", title=bmi_tip, children=[
+                    html.Span("Wskaźnik BMI", style={"color": "#64748b", "fontSize": "13px", "fontWeight": "bold"}),
+                    html.H2(bmi_str, style={"margin": "4px 0 2px 0", "color": get_color_for_score(bmi_score)}),
+                    html.Span(f"Score {bmi_score}/10 — {bmi_sub}", style={"fontSize": "11px", "color": get_color_for_score(bmi_score), "fontWeight": "700"})
+                ]),
+                html.Div(className=f"kpi-card score-{whr_score}", title=whr_tip, children=[
+                    html.Span("Dystrybucja WHR (Pas/Biodra)", style={"color": "#64748b", "fontSize": "13px", "fontWeight": "bold"}),
+                    html.H2(whr_str, style={"margin": "4px 0 2px 0", "color": get_color_for_score(whr_score)}),
+                    html.Span(f"Score {whr_score}/10 — {whr_sub}", style={"fontSize": "11px", "color": get_color_for_score(whr_score), "fontWeight": "700"})
+                ]),
+                html.Div(className=f"kpi-card score-{vt_score}", title=vt_tip, children=[
+                    html.Span("Proporcja V-Taper (Klatka/Pas)", style={"color": "#64748b", "fontSize": "13px", "fontWeight": "bold"}),
+                    html.H2(v_taper_str, style={"margin": "4px 0 2px 0", "color": get_color_for_score(vt_score)}),
+                    html.Span(f"Score {vt_score}/10 — {vt_sub}", style={"fontSize": "11px", "color": get_color_for_score(vt_score), "fontWeight": "700"})
+                ]),
+                html.Div(className=f"kpi-card score-{ffmi_score}", title=ffmi_tip, children=[
+                    html.Span("FFMI (Indeks Mięśni)", style={"color": "#64748b", "fontSize": "13px", "fontWeight": "bold"}),
+                    html.H2(ffmi_str, style={"margin": "4px 0 2px 0", "color": get_color_for_score(ffmi_score)}),
+                    html.Span(f"Score {ffmi_score}/10 — {ffmi_sub}", style={"fontSize": "11px", "color": get_color_for_score(ffmi_score), "fontWeight": "700"})
+                ]),
+            ]),
+            
+            html.Div(style={"display": "flex", "gap": "24px", "alignItems": "flex-start"}, children=[
+                html.Div(style={"flex": "1.1", "backgroundColor": "white", "padding": "28px", "borderRadius": "16px", "boxShadow": "0 4px 20px rgba(0,0,0,0.04)", "border": "1px solid #e2e8f0"}, children=[
+                    html.H3("📋 Karta Pomiarowa Sylwetki", style={"marginTop": 0, "marginBottom": "15px", "color": "#0f172a", "fontWeight": "800", "fontSize": "18px"}),
+                    html.Div(style={"display": "grid", "gridTemplateColumns": "1fr 1fr", "gap": "12px", "marginBottom": "15px"}, children=[
+                        html.Div([html.Label("Data Pomiaru:"), dcc.DatePickerSingle(id="fit-input-date", date=datetime.now().date(), display_format="YYYY-MM-DD")]),
+                        html.Div([html.Label("Godzina Pomiaru:"), dcc.Input(id="fit-input-time", type="text", placeholder="np. 07:15")]),
+                    ]),
+                    html.Div(style={"backgroundColor": "#f8fafc", "padding": "16px", "borderRadius": "12px", "marginBottom": "20px", "border": "1px solid #e2e8f0"}, children=[
+                        html.H4("1. WAGA & SKŁAD CIAŁA (Waga Xiaomi na czczo)", style={"marginTop": 0, "marginBottom": "12px", "color": "#0284c7", "fontSize": "14px", "fontWeight": "800"}),
+                        html.Div(style={"display": "grid", "gridTemplateColumns": "1fr 1fr", "gap": "10px"}, children=[
+                            html.Div([html.Label("Masa Ciała (kg):"), dcc.Input(id="fit-input-weight", type="number", placeholder="kg", step=0.1)]),
+                            html.Div([html.Label("Tkanka Tłuszczowa (%):"), dcc.Input(id="fit-input-bf", type="number", placeholder="%", step=0.1)]),
+                            html.Div([html.Label("Masa Mięśniowa (kg):"), dcc.Input(id="fit-input-muscle-kg", type="number", placeholder="kg", step=0.1)]),
+                            html.Div([html.Label("Procent Mięśni (%):"), dcc.Input(id="fit-input-muscle-pct", type="number", placeholder="%", step=0.1)]),
+                            html.Div([html.Label("Białko Procentowo (%):"), dcc.Input(id="fit-input-protein-pct", type="number", placeholder="%", step=0.1)]),
+                            html.Div([html.Label("Mięśnie Szkieletowe (kg):"), dcc.Input(id="fit-input-skeletal-kg", type="number", placeholder="kg", step=0.1)]),
+                            html.Div([html.Label("Nawodnienie (%):"), dcc.Input(id="fit-input-water-pct", type="number", placeholder="%", step=0.1)]),
+                            html.Div([html.Label("BMR (Metabolizm kcal):"), dcc.Input(id="fit-input-bmr", type="number", placeholder="kcal", step=1)]),
+                            html.Div([html.Label("LBM (Bez tłuszczu kg):"), dcc.Input(id="fit-input-lbm", type="number", placeholder="kg", step=0.1)]),
+                        ])
+                    ]),
+                    html.Div(style={"backgroundColor": "#f8fafc", "padding": "16px", "borderRadius": "12px", "marginBottom": "20px", "border": "1px solid #e2e8f0"}, children=[
+                        html.H4("2. OBWODY CIAŁA — MIARKA KRAWIECKA", style={"marginTop": 0, "marginBottom": "12px", "color": "#0284c7", "fontSize": "14px", "fontWeight": "800"}),
+                        html.Div(style={"display": "grid", "gridTemplateColumns": "1fr 1fr", "gap": "10px"}, children=[
+                            html.Div([html.Label("Biceps / Ramię (cm):"), dcc.Input(id="fit-input-biceps", type="number", placeholder="cm", step=0.5)]),
+                            html.Div([html.Label("Przedramię (cm):"), dcc.Input(id="fit-input-forearm", type="number", placeholder="cm", step=0.5)]),
+                            html.Div([html.Label("Klatka (cm):"), dcc.Input(id="fit-input-chest", type="number", placeholder="cm", step=0.5)]),
+                            html.Div([html.Label("Pas - Pępek (cm):"), dcc.Input(id="fit-input-waist", type="number", placeholder="cm", step=0.5)]),
+                            html.Div([html.Label("Biodra / Oponka (cm):"), dcc.Input(id="fit-input-hips", type="number", placeholder="cm", step=0.5)]),
+                            html.Div([html.Label("Udo (cm):"), dcc.Input(id="fit-input-thigh", type="number", placeholder="cm", step=0.5)]),
+                            html.Div([html.Label("Łydka (cm):"), dcc.Input(id="fit-input-calf", type="number", placeholder="cm", step=0.5)]),
+                        ])
+                    ]),
+                    html.Label("Uwagi / Komentarz:"),
+                    dcc.Input(id="fit-input-notes", type="text", placeholder="np. Po regeneracji, rano na czczo..."),
+                    html.Button("Zapisz Kartę Pomiarów", id="btn-fit-save-body", n_clicks=0, style={"width": "100%", "marginTop": "20px", "padding": "14px", "backgroundColor": "#10b981", "color": "white", "border": "none", "borderRadius": "10px", "fontWeight": "800", "fontSize": "15px", "cursor": "pointer"}),
+                    html.Div(id="fit-save-msg", style={"marginTop": "14px", "textAlign": "center", "fontWeight": "bold"})
+                ]),
+                
+                html.Div(style={"flex": "1", "backgroundColor": "white", "padding": "24px", "borderRadius": "16px", "boxShadow": "0 4px 20px rgba(0,0,0,0.03)", "border": "1px solid #e2e8f0"}, children=[
+                    html.H3("📊 Analiza Progresu Sylwetkowego", style={"marginTop": 0, "marginBottom": "14px", "color": "#0f172a", "fontWeight": "800", "fontSize": "18px"}),
+                    html.Table(style={"width": "100%", "borderCollapse": "collapse"}, children=[
+                        html.Thead(html.Tr(style={"backgroundColor": "#f8fafc", "borderBottom": "2px solid #e2e8f0"}, children=[
+                            html.Th("PARAMETR", style={"padding": "12px", "textAlign": "left", "fontSize": "11px", "color": "#475569", "fontWeight": "800"}),
+                            html.Th("PIERWSZY", style={"padding": "12px", "textAlign": "center", "fontSize": "11px", "color": "#475569", "fontWeight": "800"}),
+                            html.Th("OSTATNI", style={"padding": "12px", "textAlign": "center", "fontSize": "11px", "color": "#475569", "fontWeight": "800"}),
+                            html.Th("DELTA (PROGRES)", style={"padding": "12px", "textAlign": "center", "fontSize": "11px", "color": "#475569", "fontWeight": "800"}),
+                        ])),
+                        html.Tbody(table_rows if table_rows else [html.Tr(html.Td("Brak danych pomiarowych do porównania.", colSpan=4, style={"textAlign": "center", "padding": "20px", "color": "#64748b"}))])
+                    ])
+                ])
+            ])
+        ])
+
+    # 2. ZARZĄDZANIE PLANAMI
+    elif tab == "fit-plany-edit":
+        df_plans = get_plans_list()
+        plans_options = [{'label': r['plan_name'], 'value': r['id']} for _, r in df_plans.iterrows()] if not df_plans.empty else []
+        
+        return html.Div(style={"maxWidth": "900px", "margin": "0 auto", "backgroundColor": "white", "padding": "32px", "borderRadius": "16px", "border": "1px solid #e2e8f0", "boxShadow": "0 4px 20px rgba(0,0,0,0.03)"}, children=[
+            html.Div(style={"display": "flex", "justifyContent": "space-between", "alignItems": "center", "marginBottom": "24px"}, children=[
+                html.H3("📋 Zarządzanie Planami Treningowymi", style={"margin": 0, "color": "#0f172a", "fontWeight": "800"}),
+                dcc.RadioItems(
+                    id="plan-editor-mode",
+                    options=[
+                        {'label': ' ✏️ Edytuj Wybrany Plan', 'value': 'edit'},
+                        {'label': ' ➕ Stwórz Nowy Plan', 'value': 'new'}
+                    ],
+                    value='edit',
+                    inline=True,
+                    style={"fontWeight": "bold", "color": "#0284c7"}
+                )
+            ]),
+            
+            html.Div(id="edit-plan-select-container", children=[
+                html.Label("Wybierz plan do edycji:"),
+                dcc.Dropdown(
+                    id="fit-edit-select-plan",
+                    options=plans_options,
+                    value=plans_options[0]['value'] if plans_options else None,
+                    clearable=False,
+                    style={"marginBottom": "20px"}
+                )
+            ]),
+            
+            html.Div(id="plan-editor-content")
+        ])
+
+    # 3. TRENING LIVE
+    elif tab == "fit-trening-live":
+        df_plans = get_plans_list()
+        plans_options = [{'label': r['plan_name'], 'value': r['id']} for _, r in df_plans.iterrows()] if not df_plans.empty else []
+        
+        return html.Div(style={"maxWidth": "850px", "margin": "0 auto", "backgroundColor": "white", "padding": "32px", "borderRadius": "16px", "border": "1px solid #e2e8f0", "boxShadow": "0 4px 20px rgba(0,0,0,0.03)"}, children=[
+            html.H3("🏋️ Dziennik Treningowy na Żywo (Live Workout)", style={"marginTop": 0, "marginBottom": "16px", "color": "#0f172a", "fontWeight": "800"}),
+            html.Label("Wybierz dzisiejszy plan treningowy:"),
+            dcc.Dropdown(
+                id="fit-select-live-plan",
+                options=plans_options,
+                value=plans_options[0]['value'] if plans_options else None,
+                placeholder="Wybierz plan z listy...",
+                clearable=False,
+                style={"marginBottom": "24px"}
+            ),
+            html.Div(id="fit-live-exercises-container")
+        ])
+
+    # 4. WYKRESY I HISTORIA
+    elif tab == "fit-historia":
+        if df_valid.empty or len(df_valid) < 2:
+            return html.Div(style={"backgroundColor": "white", "padding": "40px", "borderRadius": "16px", "textAlign": "center"}, children=[
+                html.P("Wprowadź co najmniej 2 ważne pomiary, aby zobaczyć wykresy postępów.", style={"color": "#64748b"})
+            ])
+        df_plot = df_valid.sort_values(by="entry_date", ascending=True)
+        fig_weight = px.line(df_plot, x="entry_date", y=[c for c in ["weight_kg", "muscle_mass_kg", "lbm_kg"] if c in df_plot.columns], title="Masa Ciała i Mięśni (kg)")
+        fig_weight.update_layout(font_family="Inter")
+        fig_circ = px.line(df_plot, x="entry_date", y=[c for c in ["waist_cm", "biceps_cm", "chest_cm", "hips_cm"] if c in df_plot.columns], title="Obwody Ciała (cm)")
+        fig_circ.update_layout(font_family="Inter")
+        return html.Div(style={"display": "flex", "flexDirection": "column", "gap": "20px"}, children=[
+            html.Div(style={"backgroundColor": "white", "padding": "20px", "borderRadius": "16px", "border": "1px solid #e2e8f0"}, children=[dcc.Graph(figure=fig_weight)]),
+            html.Div(style={"backgroundColor": "white", "padding": "20px", "borderRadius": "16px", "border": "1px solid #e2e8f0"}, children=[dcc.Graph(figure=fig_circ)]),
+        ])
+
+# CALLBACK: PRZEŁĄCZNIK WIDOKU EDYTORA LUB DROPDOWNA W ZARZĄDZANIU PLANAMI
+@callback(
+    Output("edit-plan-select-container", "style"),
+    Input("plan-editor-mode", "value")
+)
+def toggle_select_dropdown(mode):
+    return {"display": "block"} if mode == 'edit' else {"display": "none"}
+
+# CALLBACK: RENDEROWANIE FORMULARZA EDYCJI LUB TWORZENIA PLANU
+@callback(
+    Output("plan-editor-content", "children"),
+    Input("plan-editor-mode", "value"),
+    Input("fit-edit-select-plan", "value")
+)
+def render_plan_editor(mode, selected_plan_id):
+    if mode == 'edit':
+        if not selected_plan_id:
+            return html.P("Wybierz plan z rozwijanej listy powyżej, aby go edytować.", style={"color": "#64748b"})
+        
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT plan_name FROM fit_plans WHERE id = ?", (selected_plan_id,))
+        p_row = cursor.fetchone()
+        plan_name = p_row[0] if p_row else ""
+        conn.close()
+        
+        df_ex = get_plan_exercises(selected_plan_id)
+        
+        ex_inputs = []
+        for idx, r in df_ex.iterrows():
+            current_load_type = r.get('load_type') or 'Ciężar (kg)'
+            ex_inputs.append(
+                html.Div(style={"backgroundColor": "#f8fafc", "border": "1px solid #e2e8f0", "padding": "16px", "borderRadius": "12px", "marginBottom": "14px"}, children=[
+                    html.Label(f"Ćwiczenie #{idx+1}:", style={"fontWeight": "800", "fontSize": "13px", "color": "#0284c7"}),
+                    dcc.Input(id={'type': 'edit-ex-name', 'id': r['id']}, type="text", value=r['exercise_name'], style={"width": "100%", "marginBottom": "8px"}),
+                    
+                    html.Div(style={"display": "grid", "gridTemplateColumns": "1.2fr 1fr 1fr 1fr", "gap": "10px"}, children=[
+                        html.Div([
+                            html.Label("Obciążenie:", style={"fontSize": "11px"}),
+                            dcc.Dropdown(
+                                id={'type': 'edit-ex-loadtype', 'id': r['id']},
+                                options=LOAD_TYPE_OPTIONS,
+                                value=current_load_type,
+                                clearable=False
+                            )
+                        ]),
+                        html.Div([
+                            html.Label("Serie:", style={"fontSize": "11px"}),
+                            dcc.Input(id={'type': 'edit-ex-sets', 'id': r['id']}, type="number", value=r['target_sets'])
+                        ]),
+                        html.Div([
+                            html.Label("Cel Powtórzeń:", style={"fontSize": "11px"}),
+                            dcc.Input(id={'type': 'edit-ex-reps', 'id': r['id']}, type="text", value=r['target_reps'])
+                        ]),
+                        html.Div([
+                            html.Label("Domyślny Ciężar:", style={"fontSize": "11px"}),
+                            dcc.Input(id={'type': 'edit-ex-weight', 'id': r['id']}, type="number", value=r.get('default_weight_kg', 0), step=0.5)
+                        ]),
+                    ])
+                ])
+            )
+            
+        return html.Div([
+            html.Label("Nazwa Planu:"),
+            dcc.Input(id="edit-plan-name-input", type="text", value=plan_name, style={"width": "100%", "marginBottom": "18px"}),
+            html.Div(ex_inputs),
+            html.Button("💾 Zapisz Zmiany w Planie", id="btn-save-edited-plan", n_clicks=0, style={"width": "100%", "padding": "14px", "backgroundColor": "#0284c7", "color": "white", "border": "none", "borderRadius": "10px", "fontWeight": "800", "fontSize": "15px", "cursor": "pointer"}),
+            html.Div(id="edit-plan-save-msg", style={"marginTop": "12px", "textAlign": "center", "fontWeight": "bold"})
+        ])
+    else:
+        return html.Div([
+            html.Label("Nazwa Nowego Planu:"),
+            dcc.Input(id="new-plan-name-input", type="text", placeholder="np. FBW Hantle B", style={"marginBottom": "16px", "width": "100%"}),
+            html.Div(id="new-plan-exercises-list", children=[]),
+            html.Button("+ Dodaj Kolejne Ćwiczenie do Planu", id="btn-add-exercise-field", n_clicks=0, style={"width": "100%", "padding": "10px", "backgroundColor": "#e0f2fe", "color": "#0369a1", "border": "1px dashed #0284c7", "borderRadius": "8px", "fontWeight": "700", "marginBottom": "20px", "cursor": "pointer"}),
+            html.Button("💾 Stwórz i Zapisz Nowy Plan", id="btn-create-plan-save", n_clicks=0, style={"width": "100%", "padding": "14px", "backgroundColor": "#10b981", "color": "white", "border": "none", "borderRadius": "10px", "fontWeight": "800", "fontSize": "15px", "cursor": "pointer"}),
+            html.Div(id="new-plan-save-msg", style={"marginTop": "12px", "textAlign": "center", "fontWeight": "bold"})
+        ])
+
+# CALLBACK: ZAPIS ZMIAN W EDYTOWANYM PLANIE
+@callback(
+    Output("edit-plan-save-msg", "children"),
+    Input("btn-save-edited-plan", "n_clicks"),
+    State("fit-edit-select-plan", "value"),
+    State("edit-plan-name-input", "value"),
+    State({'type': 'edit-ex-name', 'id': ALL}, 'value'),
+    State({'type': 'edit-ex-loadtype', 'id': ALL}, 'value'),
+    State({'type': 'edit-ex-sets', 'id': ALL}, 'value'),
+    State({'type': 'edit-ex-reps', 'id': ALL}, 'value'),
+    State({'type': 'edit-ex-weight', 'id': ALL}, 'value'),
+    State({'type': 'edit-ex-name', 'id': ALL}, 'id'),
+    prevent_initial_call=True
+)
+def save_edited_plan(n_clicks, plan_id, new_plan_name, ex_names, ex_loadtypes, ex_sets, ex_reps, ex_weights, ex_ids):
+    if n_clicks > 0 and plan_id:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        try:
+            if new_plan_name:
+                cursor.execute("UPDATE fit_plans SET plan_name = ? WHERE id = ?", (new_plan_name, plan_id))
+            
+            for i, item in enumerate(ex_ids):
+                ex_db_id = item['id']
+                cursor.execute('''
+                    UPDATE fit_plan_exercises 
+                    SET exercise_name = ?, load_type = ?, target_sets = ?, target_reps = ?, default_weight_kg = ?
+                    WHERE id = ?
+                ''', (ex_names[i], ex_loadtypes[i] or 'Cężar (kg)', int(ex_sets[i] or 4), str(ex_reps[i] or '8-12'), float(ex_weights[i] or 0), ex_db_id))
+                
+            conn.commit()
+            conn.close()
+            set_props("fit-url-refresh", {"href": "/fit-hero"})
+            return html.Span(" Zaktualizowano plan!", style={"color": "#10b981"})
+        except Exception as e:
+            return html.Span(f" Błąd: {str(e)}", style={"color": "#ef4444"})
+    return ""
+
+# CALLBACK: DODAWANIE POLA W KREATORZE PLANU
+@callback(
+    Output("new-plan-exercises-list", "children"),
+    Input("btn-add-exercise-field", "n_clicks"),
+    State("new-plan-exercises-list", "children"),
+    prevent_initial_call=False
+)
+def add_exercise_input_fields(n_clicks, existing_children):
+    if existing_children is None:
+        existing_children = []
+    idx = len(existing_children) + 1
+    new_field = html.Div(style={"backgroundColor": "#f8fafc", "border": "1px solid #e2e8f0", "padding": "16px", "borderRadius": "12px", "marginBottom": "14px"}, children=[
+        html.Span(f"Ćwiczenie #{idx}", style={"fontWeight": "800", "fontSize": "13px", "color": "#475569"}),
+        dcc.Input(id={'type': 'new-ex-name', 'index': idx}, type="text", placeholder="Nazwa ćwiczenia", style={"width": "100%", "marginTop": "6px", "marginBottom": "8px"}),
+        
+        html.Div(style={"display": "grid", "gridTemplateColumns": "1.2fr 1fr 1fr 1fr", "gap": "10px"}, children=[
+            html.Div([
+                html.Label("Obciążenie:", style={"fontSize": "11px"}),
+                dcc.Dropdown(
+                    id={'type': 'new-ex-loadtype', 'index': idx},
+                    options=LOAD_TYPE_OPTIONS,
+                    value='Ciężar (kg)',
+                    clearable=False
+                )
+            ]),
+            html.Div([
+                html.Label("Serie:", style={"fontSize": "11px"}),
+                dcc.Input(id={'type': 'new-ex-sets', 'index': idx}, type="number", value=4)
+            ]),
+            html.Div([
+                html.Label("Cel Powtórzeń:", style={"fontSize": "11px"}),
+                dcc.Input(id={'type': 'new-ex-reps', 'index': idx}, type="text", value="8-12")
+            ]),
+            html.Div([
+                html.Label("Domyślny Ciężar:", style={"fontSize": "11px"}),
+                dcc.Input(id={'type': 'new-ex-weight', 'index': idx}, type="number", placeholder="kg", step=0.5)
+            ]),
+        ])
+    ])
+    existing_children.append(new_field)
+    return existing_children
+
+# CALLBACK: ZAPIS NOWEGO PLANU
+@callback(
+    Output("new-plan-save-msg", "children"),
+    Input("btn-create-plan-save", "n_clicks"),
+    State("new-plan-name-input", "value"),
+    State({'type': 'new-ex-name', 'index': ALL}, 'value'),
+    State({'type': 'new-ex-loadtype', 'index': ALL}, 'value'),
+    State({'type': 'new-ex-sets', 'index': ALL}, 'value'),
+    State({'type': 'new-ex-reps', 'index': ALL}, 'value'),
+    State({'type': 'new-ex-weight', 'index': ALL}, 'value'),
+    prevent_initial_call=True
+)
+def save_new_plan(n_clicks, plan_name, ex_names, ex_loadtypes, ex_sets, ex_reps, ex_weights):
+    if n_clicks > 0 and plan_name:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        try:
+            cursor.execute("INSERT INTO fit_plans (plan_name) VALUES (?)", (plan_name,))
+            plan_id = cursor.lastrowid
+            
+            for i, name in enumerate(ex_names):
+                if name:
+                    cursor.execute('''
+                        INSERT INTO fit_plan_exercises (plan_id, exercise_name, load_type, target_sets, target_reps, default_weight_kg)
+                        VALUES (?, ?, ?, ?, ?, ?)
+                    ''', (plan_id, name, ex_loadtypes[i] or 'Ciężar (kg)', int(ex_sets[i] or 4), str(ex_reps[i] or "8-12"), float(ex_weights[i] or 0)))
+            
+            conn.commit()
+            conn.close()
+            set_props("fit-url-refresh", {"href": "/fit-hero"})
+            return html.Span(" Stworzono nowy plan!", style={"color": "#10b981"})
+        except Exception as e:
+            return html.Span(f" Błąd: {str(e)}", style={"color": "#ef4444"})
+    return ""
+
+# CALLBACK: RENDEROWANIE TRENINGU LIVE (Z EMOTIKONAMI OCENY)
+@callback(
+    Output("fit-live-exercises-container", "children"),
+    Input("fit-select-live-plan", "value")
+)
+def render_live_workout_plan(plan_id):
+    if not plan_id:
+        return html.P("Wybierz plan treningowy z listy powyżej.", style={"color": "#64748b"})
+    
+    df_ex = get_plan_exercises(plan_id)
+    if df_ex.empty:
+        return html.P("Ten plan nie ma jeszcze przypisanych ćwiczeń.", style={"color": "#64748b"})
+    
+    exercises_ui = []
+    for idx, row in df_ex.iterrows():
+        ex_id = row['id']
+        ex_name = row['exercise_name']
+        target_sets = row['target_sets']
+        target_reps = row['target_reps']
+        load_type = row.get('load_type') or 'Ciężar (kg)'
+        default_weight = row.get('default_weight_kg', 0)
+        
+        if load_type == 'Masa ciała':
+            load_info = "⚖️ Masa ciała"
+        elif load_type == 'Guma oporowa':
+            load_info = f"🎗️ Guma oporowa ({default_weight}kg)" if default_weight > 0 else "🎗️ Guma oporowa"
+        else:
+            load_info = f"🏋️ Ciężar: {default_weight}kg" if default_weight > 0 else "🏋️ Ciężar (kg)"
+
+        sets_inputs = []
+        for s in range(1, target_sets + 1):
+            sets_inputs.append(
+                html.Div(style={"display": "flex", "gap": "12px", "alignItems": "center", "marginBottom": "10px"}, children=[
+                    html.Span(f"Seria {s}:", style={"fontWeight": "700", "fontSize": "14px", "width": "65px", "color": "#334155"}),
+                    dcc.Input(
+                        id={'type': 'fit-reps-input', 'ex_id': ex_id, 'set': s},
+                        type="number",
+                        placeholder=f"Powtórzenia (Cel: {target_reps})",
+                        step=1,
+                        style={"flex": "1", "padding": "10px 14px", "fontSize": "14px", "borderRadius": "8px", "border": "1px solid #cbd5e1"}
+                    ),
+                    html.Div(style={"display": "flex", "alignItems": "center", "gap": "4px"}, children=[
+                        dcc.RadioItems(
+                            id={'type': 'fit-rpe-input', 'ex_id': ex_id, 'set': s},
+                            options=RPE_OPTIONS,
+                            value=None,
+                            inline=True,
+                            className="rating-bubbles"
+                        )
+                    ])
+                ])
+            )
+            
+        exercises_ui.append(
+            html.Div(style={"backgroundColor": "#f8fafc", "border": "1px solid #e2e8f0", "borderRadius": "12px", "padding": "20px", "marginBottom": "20px"}, children=[
+                html.Div(style={"display": "flex", "justifyContent": "space-between", "alignItems": "center", "marginBottom": "14px"}, children=[
+                    html.H4(f"🏋️ {ex_name}", style={"margin": 0, "color": "#0284c7", "fontSize": "16px", "fontWeight": "800"}),
+                    html.Span(f"{load_info} | Serie: {target_sets} | Cel: {target_reps}", style={"fontSize": "13px", "color": "#475569", "fontWeight": "700", "backgroundColor": "#e2e8f0", "padding": "4px 10px", "borderRadius": "6px"})
+                ]),
+                html.Div(sets_inputs)
+            ])
+        )
+        
+    summary_box = html.Div(style={"backgroundColor": "#f1f5f9", "border": "1px solid #cbd5e1", "borderRadius": "12px", "padding": "20px", "marginBottom": "20px"}, children=[
+        html.H4("📊 Samoocena Zmęczenia po Treningu", style={"marginTop": 0, "marginBottom": "12px", "color": "#0f172a"}),
+        html.Div(style={"display": "flex", "flexDirection": "column", "gap": "14px"}, children=[
+            html.Div(style={"display": "flex", "alignItems": "center", "gap": "12px"}, children=[
+                html.Label("Samopoczucie:", style={"fontWeight": "600", "fontSize": "13px", "minWidth": "130px"}),
+                dcc.RadioItems(
+                    id="fit-session-fatigue",
+                    options=FATIGUE_OPTIONS,
+                    value=None,
+                    inline=True,
+                    className="rating-bubbles fatigue-bubbles"
+                )
+            ]),
+            html.Div(style={"display": "flex", "alignItems": "center", "gap": "12px"}, children=[
+                html.Label("Komentarz:", style={"fontWeight": "600", "fontSize": "13px", "minWidth": "130px"}),
+                dcc.Input(id="fit-session-notes", type="text", placeholder="np. Ogromny zapas siły, pompa, czuć moc...", style={"flex": "1", "padding": "9px 12px"})
+            ])
+        ])
+    ])
+    
+    exercises_ui.append(summary_box)
+    exercises_ui.append(
+        html.Div([
+            html.Button("💾 Zapisz Wykonany Trening", id="btn-save-live-workout", n_clicks=0, style={"width": "100%", "padding": "16px", "backgroundColor": "#10b981", "color": "white", "border": "none", "borderRadius": "10px", "fontWeight": "800", "fontSize": "16px", "cursor": "pointer", "boxShadow": "0 4px 12px rgba(16, 185, 129, 0.25)"}),
+            html.Div(id="live-workout-save-msg", style={"marginTop": "14px", "textAlign": "center", "fontWeight": "bold"})
+        ])
+    )
+    return html.Div(exercises_ui)
+
+# CALLBACK: ZAPIS SERII, PRZELICZANIE KOMPLETNOŚCI % ORAZ CZYSZCZENIE FORMULARZA
+@callback(
+    Output("live-workout-save-msg", "children"),
+    Output({'type': 'fit-reps-input', 'ex_id': ALL, 'set': ALL}, 'value'),
+    Output({'type': 'fit-rpe-input', 'ex_id': ALL, 'set': ALL}, 'value'),
+    Output("fit-session-fatigue", "value"),
+    Output("fit-session-notes", "value"),
+    Input("btn-save-live-workout", "n_clicks"),
+    State("fit-select-live-plan", "value"),
+    State({'type': 'fit-reps-input', 'ex_id': ALL, 'set': ALL}, 'value'),
+    State({'type': 'fit-rpe-input', 'ex_id': ALL, 'set': ALL}, 'value'),
+    State({'type': 'fit-reps-input', 'ex_id': ALL, 'set': ALL}, 'id'),
+    State("fit-session-fatigue", "value"),
+    State("fit-session-notes", "value"),
+    prevent_initial_call=True
+)
+def save_live_workout(n_clicks, plan_id, reps, rpes, ids, fatigue, overall_notes):
+    empty_reps = [None] * len(reps)
+    empty_rpes = [None] * len(rpes)
+    
+    if not n_clicks or n_clicks == 0:
+        return "", reps, rpes, fatigue, overall_notes
+        
+    if not plan_id or not ids:
+        return html.Span(" Wybierz plan treningowy przed zapisem!", style={"color": "#ef4444"}), reps, rpes, fatigue, overall_notes
+
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        cursor.execute("SELECT plan_name FROM fit_plans WHERE id = ?", (plan_id,))
+        plan_row = cursor.fetchone()
+        plan_name = plan_row[0] if plan_row else "Inny Plan"
+        today_str = datetime.now().strftime('%Y-%m-%d %H:%M')
+        
+        saved_count = 0
+        total_possible_sets = len(ids)
+        
+        for i, input_id in enumerate(ids):
+            r = reps[i] if i < len(reps) else None
+            rpe = rpes[i] if i < len(rpes) else None
+            ex_id = input_id['ex_id']
+            set_num = input_id['set']
+            
+            if r is not None and str(r).strip() != "" and float(r) > 0:
+                cursor.execute("SELECT exercise_name, default_weight_kg FROM fit_plan_exercises WHERE id = ?", (ex_id,))
+                ex_row = cursor.fetchone()
+                ex_name = ex_row[0] if ex_row else "Ćwiczenie"
+                weight_val = float(ex_row[1]) if (ex_row and ex_row[1]) else 0.0
+                
+                cursor.execute('''
+                    INSERT INTO fit_workout_logs (workout_date, plan_name, exercise_name, set_number, weight_kg, reps, rpe_score, notes)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                ''', (today_str, plan_name, ex_name, set_num, weight_val, int(r), int(rpe) if rpe else None, ''))
+                saved_count += 1
+                
+        if saved_count > 0:
+            completion_pct = round((saved_count / total_possible_sets) * 100, 1)
+            
+            cursor.execute('''
+                INSERT INTO fit_workout_sessions (workout_date, plan_name, completion_pct, fatigue_score, overall_notes)
+                VALUES (?, ?, ?, ?, ?)
+            ''', (today_str, plan_name, completion_pct, fatigue if fatigue else None, overall_notes or ''))
+            
+            conn.commit()
+            conn.close()
+            
+            msg = html.Span(f" Zapisano trening! Wykonano {completion_pct}% zaplanowanych serii ({saved_count}/{total_possible_sets}). Formularz zresetowany.", style={"color": "#10b981"})
+            return msg, empty_reps, empty_rpes, None, ""
+        else:
+            conn.close()
+            return html.Span(" Wpisz liczbę powtórzeń w przynajmniej jednej serii przed zapisem!", style={"color": "#ef4444"}), reps, rpes, fatigue, overall_notes
+            
+    except Exception as e:
+        return html.Span(f" Błąd zapisu w bazie: {str(e)}", style={"color": "#ef4444"}), reps, rpes, fatigue, overall_notes
+
+def clean_num(val):
+    if val is None or val == "":
+        return None
+    try:
+        return float(str(val).replace(',', '.'))
+    except ValueError:
+        return None
+
+# CALLBACK: ZAPIS KARTY POMIARÓW
+@callback(
+    Output("fit-save-msg", "children"),
+    Input("btn-fit-save-body", "n_clicks"),
+    State("fit-input-date", "date"),
+    State("fit-input-time", "value"),
+    State("fit-input-weight", "value"),
+    State("fit-input-bf", "value"),
+    State("fit-input-muscle-kg", "value"),
+    State("fit-input-muscle-pct", "value"),
+    State("fit-input-protein-pct", "value"),
+    State("fit-input-skeletal-kg", "value"),
+    State("fit-input-water-pct", "value"),
+    State("fit-input-bmr", "value"),
+    State("fit-input-lbm", "value"),
+    State("fit-input-biceps", "value"),
+    State("fit-input-forearm", "value"),
+    State("fit-input-chest", "value"),
+    State("fit-input-waist", "value"),
+    State("fit-input-hips", "value"),
+    State("fit-input-thigh", "value"),
+    State("fit-input-calf", "value"),
+    State("fit-input-notes", "value"),
+    prevent_initial_call=True
+)
+def save_body_params(n_clicks, date_val, time_val, weight, bf, muscle_kg, muscle_pct, protein_pct, skeletal_kg, water_pct, bmr, lbm, biceps, forearm, chest, waist, hips, thigh, calf, notes):
+    if n_clicks > 0 and date_val:
+        w_num = clean_num(weight)
+        waist_num = clean_num(waist)
+        
+        if w_num is None and waist_num is None:
+            return html.Span(" Uzupełnij przynajmniej wagę lub obwód pasa!", style={"color": "#ef4444"})
+
+        try:
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            cursor.execute('''
+                INSERT OR REPLACE INTO fit_body_params 
+                (entry_date, entry_time, weight_kg, body_fat_pct, muscle_mass_kg, muscle_pct, protein_pct, skeletal_muscle_kg, water_pct, bmr_kcal, lbm_kg, biceps_cm, forearm_cm, chest_cm, waist_cm, hips_cm, thigh_cm, calf_cm, notes)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ''', (
+                str(date_val), time_val or datetime.now().strftime('%H:%M'),
+                w_num, clean_num(bf), clean_num(muscle_kg), clean_num(muscle_pct), clean_num(protein_pct),
+                clean_num(skeletal_kg), clean_num(water_pct), clean_num(bmr), clean_num(lbm),
+                clean_num(biceps), clean_num(forearm), clean_num(chest), waist_num, clean_num(hips),
+                clean_num(thigh), clean_num(calf), notes or ''
+            ))
+            conn.commit()
+            conn.close()
+            set_props("fit-url-refresh", {"href": "/fit-hero"})
+            return html.Span(" Zapisano!", style={"color": "#10b981"})
+        except Exception as e:
+            return html.Span(f" Błąd zapisu: {str(e)}", style={"color": "#ef4444"})
+    return ""

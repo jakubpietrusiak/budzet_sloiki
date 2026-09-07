@@ -1,0 +1,269 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap');
+
+/* GLOBALNE WYMUSZENIE CZCIONKI */
+*, *::before, *::after, input, select, textarea, button, .Select, .Select-control, .Select-value, .Select-placeholder, .Select-input, .Select-menu-outer, .Select-option, .SingleDatePicker, .SingleDatePickerInput, .DateInput, .DateInput_input {
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif !important;
+}
+
+body {
+    margin: 0;
+    background-color: #f8fafc;
+    color: #1e293b;
+    -webkit-font-smoothing: antialiasing;
+}
+
+/* SIDEBAR */
+.nav-link {
+    display: flex !important;
+    align-items: center !important;
+    color: #94a3b8 !important;
+    text-decoration: none !important;
+    padding: 14px 18px !important;
+    border-radius: 12px !important;
+    transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    border: 1px solid transparent !important;
+    box-sizing: border-box !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.2px !important;
+}
+
+.nav-link:hover {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    transform: translateX(6px) !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.nav-link[aria-current="page"], .nav-link.active {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 20px rgba(2, 132, 199, 0.45) !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+}
+
+/* KPI CARDS */
+.kpi-card {
+    background: white;
+    padding: 22px 24px;
+    border-radius: 14px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    flex: 1;
+    border: 1px solid #e2e8f0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kpi-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+.kpi-card.green { border-left: 5px solid #10b981; }
+.kpi-card.red { border-left: 5px solid #ef4444; }
+.kpi-card.blue { border-left: 5px solid #0284c7; }
+
+/* ZAKŁADKI (TABS) */
+.custom-tabs-container {
+    border-bottom: none !important;
+    background-color: #e2e8f0;
+    padding: 6px;
+    border-radius: 14px;
+    display: inline-flex !important;
+    gap: 6px;
+    margin-bottom: 25px;
+}
+
+.custom-tab {
+    background-color: transparent !important;
+    border: none !important;
+    color: #64748b !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    padding: 10px 20px !important;
+    border-radius: 10px !important;
+    cursor: pointer;
+    transition: all 0.2s ease !important;
+}
+
+.custom-tab:hover {
+    color: #0f172a !important;
+    background-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.custom-tab--selected {
+    background-color: #ffffff !important;
+    color: #0284c7 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* ETYKIETY FORMULARZA */
+label {
+    font-weight: 700 !important;
+    font-size: 13px !important;
+    color: #334155 !important;
+    letter-spacing: 0.2px;
+    display: block;
+    margin-top: 14px !important;
+    margin-bottom: 6px !important;
+}
+
+label:first-of-type {
+    margin-top: 0 !important;
+}
+
+/* KONTROLKI INPUT TEXT / NUMBER */
+input[type="text"], input[type="number"] {
+    font-size: 15px !important;
+    color: #0f172a !important;
+    border-radius: 10px !important;
+    border: 1px solid #cbd5e1 !important;
+    padding: 10px 14px !important;
+    background-color: #ffffff !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+    height: 46px !important;
+    width: 100% !important;
+}
+
+input[type="text"]:focus, input[type="number"]:focus {
+    border-color: #0284c7 !important;
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15) !important;
+}
+
+/* REACT-SELECT (dcc.Dropdown) */
+.Select-control {
+    border-radius: 10px !important;
+    border: 1px solid #cbd5e1 !important;
+    height: 46px !important;
+    background-color: #ffffff !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.Select-placeholder, .Select-value {
+    line-height: 44px !important;
+    padding-left: 10px !important;
+    font-size: 15px !important;
+    color: #0f172a !important;
+}
+
+.Select-menu-outer {
+    font-size: 14px !important;
+    border-radius: 10px !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+}
+
+/* CAŁKOWITY REFRESH POLE DATY (SingleDatePicker / react-dates) */
+.SingleDatePicker {
+    width: 100% !important;
+    display: block !important;
+}
+
+.SingleDatePickerInput, .SingleDatePickerInput__withBorder {
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    border-radius: 10px !important;
+    border: 1px solid #cbd5e1 !important;
+    background-color: #ffffff !important;
+    height: 46px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+}
+
+.DateInput {
+    width: 100% !important;
+    background: transparent !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.DateInput_input, input.DateInput_input {
+    width: 100% !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    color: #0f172a !important;
+    padding: 0 14px !important;
+    height: 44px !important;
+    line-height: 44px !important;
+    border: none !important;
+    background: transparent !important;
+    box-sizing: border-box !important;
+    outline: none !important;
+}
+
+.SingleDatePickerInput_clearDate {
+    display: none !important;
+}
+
+/* 10-STOPNIOWA SKALA KOLORÓW DLA KAFELKÓW KPI */
+.kpi-card.score-1  { border-left: 5px solid #ef4444; background: #fef2f2; } /* Skrajnie źle */
+.kpi-card.score-2  { border-left: 5px solid #f97316; background: #fff7ed; }
+.kpi-card.score-3  { border-left: 5px solid #f59e0b; background: #fffbe6; }
+.kpi-card.score-4  { border-left: 5px solid #eab308; background: #fefce8; }
+.kpi-card.score-5  { border-left: 5px solid #84cc16; background: #f7fee7; } /* Neutralnie */
+.kpi-card.score-6  { border-left: 5px solid #65a30d; background: #f7fee7; }
+.kpi-card.score-7  { border-left: 5px solid #22c55e; background: #f0fdf4; }
+.kpi-card.score-8  { border-left: 5px solid #16a34a; background: #f0fdf4; }
+.kpi-card.score-9  { border-left: 5px solid #10b981; background: #ecfdf5; }
+.kpi-card.score-10 { border-left: 5px solid #059669; background: #ecfdf5; } /* Doskonale */
+
+.kpi-card[title] {
+    cursor: help;
+}
+
+.dash-tabs-container {
+    background-color: transparent;
+    border-bottom: 2px solid #e2e8f0;
+}
+.dash-tab {
+    padding: 10px 20px !important;
+    font-weight: 700 !important;
+    border: none !important;
+    background-color: transparent !important;
+}
+.dash-tab--selected {
+    color: #0284c7 !important;
+    border-bottom: 3px solid #0284c7 !important;
+}
+/* --- TOOLTIP DLA KAFELKÓW FIT HERO (POJAWIANIE SIĘ NAD KAFLEM) --- */
+.kpi-card {
+    position: relative;
+    cursor: pointer;
+}
+
+.kpi-card[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 110%; /* Wyświetlanie NAD kafelkiem */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #0f172a;
+    color: #ffffff;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    width: 290px;
+    z-index: 9999;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    border: 1px solid #334155;
+    pointer-events: none;
+    text-align: left;
+    font-weight: 500;
+}
+
+.kpi-card[data-tooltip]:hover::before {
+    content: '';
+    position: absolute;
+    bottom: 98%; /* Strzałka skierowana w dół do kafelka */
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: #0f172a transparent transparent transparent;
+    z-index: 9999;
+    pointer-events: none;
+}
